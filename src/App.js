@@ -1,26 +1,36 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+	constructor(props) {
+		super(props);
+		this.state = {result: "before"}
+		this.handleClick = this.handleClick.bind(this);
+	}
+	
+	handleClick() {
+		this.callAPI();
+	}	
+
+	callAPI() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'https://njy2r4u1w3.execute-api.ap-northeast-1.amazonaws.com/demo/', true);
+		xhr.addEventListener("load", (event) => {
+			this.setState( { result: event.target.responseText });
+		});
+		xhr.send();
+	}
+
+	render() {
+		return(
+			<div class="App">
+			<div>{this.state.result}</div>
+			<Button variant="primary" onClick={this.handleClick}>Hello World</Button>
+			</div>
+		);
+	}
 }
 
 export default App;
